@@ -1,0 +1,9 @@
+<!doctype html>
+<title>Current temperature</title>
+{% if fahrenheit %}
+  <h3>Fahrenheit  {{ fahrenheit }}</h3>
+  <h3>Celsius  {{ temp }}</h3>
+  <h3>Humidity  {{ humidity }}</h3>
+{% else %}
+  <h1>JSON empty</h1>
+{% endif %}

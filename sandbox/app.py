@@ -1,3 +1,5 @@
+import requests
+
 from flask import Flask, render_template
 app = Flask(__name__)
 
@@ -33,6 +35,31 @@ def login():
 def hello1(name=None):
   #name=None ensures the code runs even when no name is provided
   return render_template('user-profile.html', name=name)
+
+@app.route('/temp')
+def temp():
+  #name=None ensures the code runs even when no name is provided
+  #return render_template('user-profile.html', name=name)
+  #make a POST request
+  dictToSend = {'question':'what is the answer?'}
+  res = requests.post('http://192.168.0.134/temp/', json=dictToSend)
+  print ('response from server:',res.text)
+  dictFromServer = res.json()
+  print(dictFromServer)
+  print("Dictionary python:")
+  for x in dictFromServer:
+      print(dictFromServer[x])
+
+  fahrenheit = dictFromServer.get("Fahrenheit")
+  humidity = dictFromServer.get("Humidity")
+  temp = dictFromServer.get("Temperature")
+
+  print("Fahrenheit=",fahrenheit)
+  print("Humidity=",humidity)
+  print("Temperature=",temp)
+
+  #return dictFromServer
+  return render_template('temperature.html', fahrenheit=fahrenheit, humidity=humidity, temp=temp)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
